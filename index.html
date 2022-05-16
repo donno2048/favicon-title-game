@@ -19,8 +19,7 @@
             const ctx = canvas.getContext('2d');
             const anim = () => {
                 requestAnimationFrame(function () {
-                    ctx.fillStyle = 'red';
-                    ctx.fillRect(0, 0, 16, 16);
+                    ctx.clearRect(0, 0, 16, 16);
                     ctx.fillStyle = 'white';
                     ctx.fillRect(6, 8 - jump, 4, 8);
                     jump && jump--;
