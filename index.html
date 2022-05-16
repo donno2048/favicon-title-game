@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>_______________o</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="icon" type="image/png">
+    </head>
+    <body>
+        <style>
+            #score::before {content: 'Score: ';}
+            #highscore::before {content: 'Highscore: ';}
+        </style>
+        <script>
+            var i = 15, jump = 0, running = false, score = 0;
+            const canvas = document.createElement('canvas');
+            canvas.width = 16;
+            canvas.height = 16;
+            const ctx = canvas.getContext('2d');
+            const anim = () => {
+                requestAnimationFrame(function () {
+                    ctx.fillStyle = 'red';
+                    ctx.fillRect(0, 0, 16, 16);
+                    ctx.fillStyle = 'white';
+                    ctx.fillRect(6, 8 - jump, 4, 8);
+                    jump && jump--;
+                    document.querySelector('link[rel="icon"]').href = canvas.toDataURL();
+                    document.title = '_'.repeat(i) + 'o' + '_'.repeat(15 - i);
+                    if (!i) {
+                        if (jump < 4) {
+                            document.getElementById('highscore').innerHTML = Math.max(score, parseInt(document.getElementById('highscore').innerHTML));
+                            document.title = 'GAME OVER';
+                            running = false;
+                            score = 0;
+                            i = 16;
+                        }
+                        else {
+                            i = 15;
+                            score++;
+                        }
+                        document.getElementById('score').innerHTML = score;
+                    }
+                    i--;
+                    running && setTimeout(arguments.callee, 100); // should use requestAnimationFrame
+                });
+            };
+            document.addEventListener('keyup', function(e) {
+                if (e.keyCode === 32) {
+                    if (running) jump = jump || 8;
+                    else {
+                        running = true;
+                        anim();
+                    }
+                }
+            });
+        </script>
+        <span>Press SPACE to start and jump over the o's</span>
+        <div id="score">0</div>
+        <div id="highscore">0</div>
+    </body>
+</html>
